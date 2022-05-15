@@ -201,12 +201,18 @@ export default {
       return this.products
     },
   },
+  methods: {
+    resetSearchCategory() {
+      this.categoryId = false
+    },
+  },
   watch: {
     search(val) {
       this.isLoading = true
       setTimeout(() => {
         this.itemsSearch = this.products.filter((e) => {
           this.isLoading = false
+          this.resetSearchCategory()
           return e.title
         })
       }, 500)
