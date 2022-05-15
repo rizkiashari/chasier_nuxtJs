@@ -108,7 +108,7 @@ export const state = () => ({
   ],
   categories: [
     {
-      id: false,
+      id: 0,
       title: 'All',
     },
     {
@@ -130,5 +130,11 @@ export const state = () => ({
 export const mutations = {
   updateCategoryId(state, categoryId) {
     state.categoryId = categoryId
+  },
+}
+
+export const actions = {
+  updateCategoryId({ commit }, categoryId) {
+    commit('updateCategoryId', categoryId)
   },
 }
