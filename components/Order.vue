@@ -9,7 +9,7 @@
               {{ item.title }}
             </v-list-item-title>
             <v-list-item-subtitle>
-              {{ item.price }}
+              {{ currency(item.price) }}
             </v-list-item-subtitle>
           </v-list-item-content>
         </v-list-item>
@@ -22,6 +22,11 @@
 import { mapGetters, mapState } from 'vuex'
 
 export default {
+  methods: {
+    currency(val) {
+      return Intl.NumberFormat('en-US').format(val)
+    },
+  },
   computed: {
     ...mapState('carts', {
       items: 'items',
