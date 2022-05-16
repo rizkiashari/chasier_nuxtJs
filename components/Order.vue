@@ -9,7 +9,7 @@
               {{ item.title }}
             </v-list-item-title>
             <v-list-item-subtitle>
-              {{ currency(item.price) }}
+              {{ currency(item.price) }} X {{ item.quantity }}
             </v-list-item-subtitle>
           </v-list-item-content>
         </v-list-item>
