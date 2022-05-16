@@ -2,13 +2,29 @@ export const state = () => ({
   items: [],
 })
 
+// Manipulasi data sebelum di tampilkan ke user
+export const getters = {
+  cartItems: (state, getters, rootState) => {
+    return state.items.map(({ id, quantity }) => {
+      let product = rootState.products.products.find(
+        (product) => product.id === id
+      )
+      return {
+        id,
+        name: product.name,
+        price: product.price,
+        quantity,
+      }
+    })
+  },
+}
+
 export const mutations = {
   addItem(state, id) {
     state.items.push({
       id: id,
       quantity: 1,
     })
-    console.log(state.items)
   },
   incrementItem(state, id) {
     state.items.find((item) => item.id === id).quantity++
