@@ -11,6 +11,7 @@ export const getters = {
       )
       return {
         id,
+        title: product.title,
         name: product.name,
         price: product.price,
         quantity,
