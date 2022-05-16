@@ -9,7 +9,26 @@
               {{ item.title }}
             </v-list-item-title>
             <v-list-item-subtitle>
-              {{ currency(item.price) }} X {{ item.quantity }}
+              {{ currency(item.price) }} X
+              <v-btn
+                @click="decrement(item.id)"
+                icon
+                class="px-0"
+                color="primary"
+                x-small
+              >
+                <v-icon>mdi-chevron-down</v-icon>
+              </v-btn>
+              {{ item.quantity }}
+              <v-btn
+                @click="increment(item.id)"
+                icon
+                class="px-0"
+                color="primary"
+                x-small
+              >
+                <v-icon>mdi-chevron-up</v-icon>
+              </v-btn>
             </v-list-item-subtitle>
           </v-list-item-content>
           <v-list-item-action>
@@ -24,10 +43,14 @@
 </template>
 
 <script>
-import { mapGetters, mapState } from 'vuex'
+import { mapGetters, mapState, mapActions } from 'vuex'
 
 export default {
   methods: {
+    ...mapActions('carts', {
+      increment: 'increment',
+      decrement: 'decrement',
+    }),
     currency(val) {
       return Intl.NumberFormat('en-US').format(val)
     },
