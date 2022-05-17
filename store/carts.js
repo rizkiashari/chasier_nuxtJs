@@ -21,6 +21,11 @@ export const getters = {
   itemTotal: () => (price, quantity) => {
     return price * quantity
   },
+  subTotal: (state, getters) => {
+    return getters.cartItems.reduce((total, item) => {
+      return total + item.price * item.quantity
+    }, 0)
+  },
 }
 
 export const mutations = {
