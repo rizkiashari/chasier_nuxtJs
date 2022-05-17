@@ -1,5 +1,17 @@
 export const state = () => ({
   items: [],
+  additionals: [
+    {
+      title: 'Tax',
+      mode: 'percentage',
+      value: 10,
+    },
+    {
+      title: 'Service Charge',
+      mode: 'fix',
+      value: 50000,
+    },
+  ],
 })
 
 // Manipulasi data sebelum di tampilkan ke user
@@ -25,6 +37,7 @@ export const getters = {
     return getters.cartItems.reduce((total, item) => {
       return total + item.price * item.quantity
     }, 0)
+    // 0 -> Nilai Awal dari total
   },
 }
 
