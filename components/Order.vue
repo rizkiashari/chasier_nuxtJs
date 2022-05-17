@@ -65,14 +65,19 @@
             <v-list-item
               v-for="(additional, index) in additionals"
               :key="index"
-              disabled
             >
               <v-list-item-content>
                 <v-list-item-title>{{ additional.title }}</v-list-item-title>
+                <v-list-item-subtitle v-if="additional.mode === 'percentage'">
+                  {{ currency(additional.value) }}%
+                </v-list-item-subtitle>
               </v-list-item-content>
               <v-list-item-action>
-                <v-list-item-title>
+                <v-list-item-title v-if="additional.mode === 'fix'">
                   {{ currency(additional.value) }}
+                </v-list-item-title>
+                <v-list-item-title v-else-if="additional.mode === 'percentage'">
+                  {{ currency(calculatePercentage(additional.value)) }}
                 </v-list-item-title>
               </v-list-item-action>
             </v-list-item>
@@ -106,6 +111,7 @@ export default {
       cartItems: 'cartItems',
       itemTotal: 'itemTotal',
       subTotal: 'subTotal',
+      calculatePercentage: 'calculatePercentage',
     }),
   },
 }

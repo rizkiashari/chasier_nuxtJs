@@ -39,6 +39,9 @@ export const getters = {
     }, 0)
     // 0 -> Nilai Awal dari total
   },
+  calculatePercentage: (state, getters) => (value) => {
+    return (getters.subTotal * value) / 100
+  },
 }
 
 export const mutations = {
