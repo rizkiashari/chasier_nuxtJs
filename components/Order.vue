@@ -83,6 +83,17 @@
             </v-list-item>
           </template>
         </v-list-group>
+        <v-list-item
+          v-if="cartItems.length"
+          class="text-h6 black--text grey lighten-2"
+        >
+          <v-list-item-content>
+            <v-list-item-title> Sub Total </v-list-item-title>
+          </v-list-item-content>
+          <v-list-item-action>
+            <v-list-item-title> {{ currency(total) }} </v-list-item-title>
+          </v-list-item-action>
+        </v-list-item>
       </v-list>
     </v-col>
   </v-row>
@@ -112,6 +123,7 @@ export default {
       itemTotal: 'itemTotal',
       subTotal: 'subTotal',
       calculatePercentage: 'calculatePercentage',
+      total: 'total',
     }),
   },
 }
