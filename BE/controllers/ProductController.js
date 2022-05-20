@@ -1,19 +1,22 @@
 import product from "../models/Product.js";
 import category from "../models/Category.js";
+import mongoose from "mongoose";
 
 const index = async (req, res) => {
   try {
-    const categories = await product.find();
+    const products = await product.find({
+      status: "active",
+    });
 
-    if (!categories) {
-      throw { code: 500, message: "Get categories failed" };
+    if (!products) {
+      throw { code: 500, message: "Get product failed" };
     }
 
-    // return res.status(200).json({
-    //   status: true,
-    //   total: categories.length,
-    //   categories,
-    // });
+    return res.status(200).json({
+      status: true,
+      total: products.length,
+      products,
+    });
   } catch (error) {
     return res.status(error.code).json({
       status: false,
@@ -44,6 +47,11 @@ const store = async (req, res) => {
     });
     if (productExist) {
       throw { code: 428, message: "Product is exist" };
+    }
+
+    // is objectId
+    if (!mongoose.Types.ObjectId.isValid(req.body.categoryId)) {
+      throw { code: 500, message: "CategoryId invalid" };
     }
 
     // is category exist
