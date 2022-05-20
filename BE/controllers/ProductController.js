@@ -46,6 +46,14 @@ const store = async (req, res) => {
       throw { code: 428, message: "Product is exist" };
     }
 
+    // is category exist
+    const categoryExist = await category.findOne({
+      _id: req.body.categoryId,
+    });
+    if (!categoryExist) {
+      throw { code: 428, message: "Category is not exist" };
+    }
+
     const title = req.body.title;
     const thumbnail = req.body.thumbnail;
     const price = req.body.price;
@@ -69,6 +77,9 @@ const store = async (req, res) => {
       Product,
     });
   } catch (error) {
+    if (!error.code) {
+      error.code = 500;
+    }
     return res.status(error.code).json({
       status: false,
       message: error.message,
