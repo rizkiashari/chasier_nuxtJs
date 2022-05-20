@@ -1,4 +1,5 @@
 import product from "../models/Product.js";
+import category from "../models/Category.js";
 
 const index = async (req, res) => {
   try {
@@ -35,6 +36,14 @@ const store = async (req, res) => {
     }
     if (!req.body.categoryId) {
       throw { code: 428, message: "CategoryId is required" };
+    }
+
+    // is product exist
+    const productExist = await product.findOne({
+      title: req.body.title,
+    });
+    if (productExist) {
+      throw { code: 428, message: "Product is exist" };
     }
 
     const title = req.body.title;
