@@ -23,9 +23,19 @@ const index = async (req, res) => {
 
 const store = async (req, res) => {
   try {
-    // if (!req.body.title) {
-    //   throw { code: 428, message: "Title is required" };
-    // }
+    // is required fields
+    if (!req.body.title) {
+      throw { code: 428, message: "Title is required" };
+    }
+    if (!req.body.thumbnail) {
+      throw { code: 428, message: "Thumbnail is required" };
+    }
+    if (!req.body.price) {
+      throw { code: 428, message: "Price is required" };
+    }
+    if (!req.body.categoryId) {
+      throw { code: 428, message: "CategoryId is required" };
+    }
 
     const title = req.body.title;
     const thumbnail = req.body.thumbnail;
