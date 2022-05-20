@@ -1,7 +1,7 @@
 import express from "express";
 import dotenv from "dotenv";
 import mongoose from "mongoose";
-
+import { store } from "./controllers/CategoryController.js";
 import indexRouter from "./routes/index.js";
 
 const env = dotenv.config().parsed;
@@ -11,6 +11,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
 app.use("/", indexRouter);
+app.post("/categories", store);
 
 // Connect to mongodb
 mongoose.connect(`${env.MONGODB_URI}${env.MONGODB_HOST}:${env.MONGODB_PORT}`, {
