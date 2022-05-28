@@ -56,4 +56,41 @@ const register = async (req, res) => {
   }
 };
 
-export { register };
+const login = async (req, res) => {
+  try {
+    if (!req.body.email) {
+      throw { code: 428, message: "Email is required" };
+    }
+    if (!req.body.password) {
+      throw { code: 428, message: "Password is required" };
+    }
+
+    const User = await user.findOne({ email: req.body.email });
+
+    if (!User) {
+      throw { code: 404, message: "USER_NOT_FOUND" };
+    }
+
+    // check if password match
+    const isMatch = await bcrypt.compareSync(req.body.password, User.password);
+    if (!isMatch) {
+      throw { code: 428, message: "PASSWORD_WRONG" };
+    }
+
+    return res.status(200).json({
+      status: true,
+      message: "LOGIN_SUCCESS",
+      User,
+    });
+  } catch (error) {
+    if (!error.code) {
+      error.code = 500;
+    }
+    return res.status(error.code).json({
+      status: false,
+      message: error.message,
+    });
+  }
+};
+
+export { register, login };
