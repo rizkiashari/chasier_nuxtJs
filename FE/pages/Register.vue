@@ -10,24 +10,28 @@
               label="Fullname"
               type="text"
               v-model="form.fullname"
+              :rules="rules.fullname"
             />
             <v-text-field
               name="email"
               label="Email"
               type="email"
               v-model="form.email"
+              :rules="rules.email"
             />
             <v-text-field
               name="password"
               label="Password"
               type="password"
               v-model="form.password"
+              :rules="rules.password"
             />
             <v-text-field
               name="retype_password"
               label="Re-Password"
               type="password"
               v-model="form.retype_password"
+              :rules="rules.retype_password"
             />
           </v-form>
         </v-card-text>
@@ -36,7 +40,10 @@
           <v-btn @click="onSubmit" color="primary">Register</v-btn>
         </v-card-actions>
       </v-card>
-      <p>Kamu belum punya akun? <v-btn plain to="/login">login</v-btn></p>
+      <p>
+        Kamu belum punya akun?
+        <v-btn plain class="pl-0" to="/login">login</v-btn>
+      </p>
     </v-col>
   </v-row>
 </template>
@@ -50,6 +57,20 @@ export default {
         email: '',
         password: '',
         retype_password: '',
+      },
+      rules: {
+        fullname: [(v) => !!v || 'Fullname is required'],
+        email: [
+          (v) => !!v || 'Email is required',
+          (v) => /.+@.+\..+/.test(v) || 'Email is invalid',
+        ],
+        password: [
+          (v) => !!v || 'Password is required',
+          (v) => v.length >= 6 || 'Password must be at least 6 characters',
+        ],
+        retype_password: [
+          (v) => v === this.form.password || 'Password not match',
+        ],
       },
     }
   },
