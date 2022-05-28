@@ -76,5 +76,20 @@ export default {
       ],
     }
   },
+  methods: {
+    isWelcomeScreen() {
+      if (this.$router.currentRoute.path === '/') {
+        this.$router.push('/register')
+      }
+    },
+  },
+  watch: {
+    $route() {
+      this.isWelcomeScreen()
+    },
+  },
+  mounted() {
+    this.isWelcomeScreen()
+  },
 }
 </script>
