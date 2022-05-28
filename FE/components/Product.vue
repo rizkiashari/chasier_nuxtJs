@@ -40,7 +40,7 @@
     <v-row>
       <v-col v-for="(product, index) in filteredProducts" :key="index" cols="2">
         <v-card
-          @click="addToCart(product.id)"
+          @click="addToCart(product._id)"
           :title="product.title"
           :ripple="true"
         >

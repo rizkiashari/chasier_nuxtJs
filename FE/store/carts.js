@@ -19,7 +19,7 @@ export const getters = {
   cartItems: (state, getters, rootState) => {
     return state.items.map(({ id, quantity }) => {
       let product = rootState.products.products.find(
-        (product) => product.id === id
+        (product) => product._id === id
       )
       return {
         id,
