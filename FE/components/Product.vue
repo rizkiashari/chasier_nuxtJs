@@ -76,10 +76,6 @@ export default {
         return this.products.filter(
           (product) => product.categoryId === this.categoryId
         )
-      } else if (this.selectedSearch) {
-        return this.products.filter(
-          (product) => product.title === this.selectedSearch.title
-        )
       }
       return this.products
     },
@@ -98,7 +94,7 @@ export default {
     }),
 
     resetSearchCategory() {
-      this.categoryId = false
+      this.updateCategoryId(0)
     },
   },
   watch: {
@@ -111,6 +107,11 @@ export default {
           return e.title
         })
       }, 500)
+    },
+    selectedSearch(product) {
+      if (product) {
+        this.addToCart(product._id)
+      }
     },
   },
   mounted() {
