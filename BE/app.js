@@ -3,21 +3,18 @@ import dotenv from "dotenv";
 import mongoose from "mongoose";
 import indexRouter from "./routes/index.js";
 import morgan from "morgan";
+import cors from "cors";
 
 const env = dotenv.config().parsed;
 var app = express();
 
-app.use(function (req, res, next) {
-  res.header("Access-Control-Allow-Origin", "*");
-  res.header(
-    "Access-Control-Allow-Headers",
-    "Origin, X-Requested-With, Content-Type, Accept, Authorization"
-  );
-  res.header("Access-Control-Allow-Methods", "PUT, POST, GET, DELETE, OPTIONS");
-  next();
-});
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
+app.use(
+  cors({
+    origin: "http://localhost:8000",
+  })
+);
 app.use(morgan("dev"));
 
 app.use("/", indexRouter);
