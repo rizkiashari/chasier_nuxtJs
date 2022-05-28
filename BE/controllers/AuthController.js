@@ -118,4 +118,44 @@ const login = async (req, res) => {
   }
 };
 
-export { register, login };
+const refreshToken = async (req, res) => {
+  try {
+    if (!req.body.refreshToken) {
+      throw { code: 428, message: "Refresh token is required" };
+    }
+
+    // verify token
+    const verify = await jsonwebtoken.verify(
+      req.body.refreshToken,
+      env.JWT_REFRESH_TOKEN_SECRET
+    );
+    if (!verify) {
+      throw { code: 401, message: "REFRESH_TOKEN_INVALID" };
+    }
+
+    // generate token
+    let payload = {
+      _id: verify.id,
+      role: verify.role,
+    };
+    const accessToken = await generateAccessToken(payload);
+    const refreshToken = await generateRefreshToken(payload);
+
+    return res.status(200).json({
+      status: true,
+      message: "REFRESH_TOKEN_SUCCESS",
+      accessToken,
+      refreshToken,
+    });
+  } catch (error) {
+    if (!error.code) {
+      error.code = 500;
+    }
+    return res.status(error.code).json({
+      status: false,
+      message: error.message,
+    });
+  }
+};
+
+export { register, login, refreshToken };
