@@ -18,6 +18,7 @@
               type="email"
               v-model="form.email"
               :rules="rules.email"
+              @keyup="checkEmail"
             />
             <v-text-field
               name="password"
@@ -52,6 +53,7 @@
 export default {
   data() {
     return {
+      emailExist: false,
       form: {
         fullname: '',
         email: '',
@@ -63,6 +65,7 @@ export default {
         email: [
           (v) => !!v || 'Email is required',
           (v) => /.+@.+\..+/.test(v) || 'Email is invalid',
+          (v) => !!this.emailExist || 'Email is already exist',
         ],
         password: [
           (v) => !!v || 'Password is required',
@@ -75,8 +78,19 @@ export default {
     }
   },
   methods: {
+    checkEmail() {
+      this.$axios
+        .post('http://localhost:3000/auth/check-email', this.form)
+        .then((response) => {
+          console.log(response)
+          this.emailExist = false
+        })
+        .catch((err) => {
+          this.emailExist = true
+          console.log('error: ', err.message)
+        })
+    },
     onSubmit() {
-      console.log(this.form)
       this.$axios
         .post('http://localhost:3000/auth/register', this.form)
         .then((response) => {
