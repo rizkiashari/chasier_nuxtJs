@@ -12,6 +12,11 @@ const register = async (req, res) => {
       throw { code: 428, message: "Password is required" };
     }
 
+    // check if password match
+    if (req.body.password !== req.body.retype_password) {
+      throw { code: 428, message: "PASSWORD_MUST_MATCH" };
+    }
+
     const newUser = new user({
       fullname: req.body.fullname,
       email: req.body.email,
