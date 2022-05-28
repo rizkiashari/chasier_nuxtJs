@@ -17,6 +17,12 @@ const register = async (req, res) => {
       throw { code: 428, message: "PASSWORD_MUST_MATCH" };
     }
 
+    // check if email exist
+    const email = await user.findOne({ email: req.body.email });
+    if (email) {
+      throw { code: 428, message: "EMAIL_EXIST" };
+    }
+
     const newUser = new user({
       fullname: req.body.fullname,
       email: req.body.email,
