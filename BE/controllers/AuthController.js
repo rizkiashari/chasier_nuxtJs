@@ -20,7 +20,7 @@ const register = async (req, res) => {
     // check if email exist
     const email = await user.findOne({ email: req.body.email });
     if (email) {
-      throw { code: 428, message: "EMAIL_EXIST" };
+      throw { code: 409, message: "EMAIL_EXIST" };
     }
 
     const newUser = new user({
