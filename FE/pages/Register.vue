@@ -38,7 +38,14 @@
         </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn @click="onSubmit" color="primary">Register</v-btn>
+          <v-btn @click="onSubmit" :disabled="isDisable" color="primary">
+            <span v-if="!isDisable"> Register </span>
+            <v-progress-circular
+              v-else
+              indeterminate
+              color="primary"
+            ></v-progress-circular>
+          </v-btn>
         </v-card-actions>
       </v-card>
       <p>
@@ -54,6 +61,7 @@ export default {
   data() {
     return {
       emailExist: false,
+      isDisable: false,
       form: {
         fullname: '',
         email: '',
@@ -65,7 +73,7 @@ export default {
         email: [
           (v) => !!v || 'Email is required',
           (v) => /.+@.+\..+/.test(v) || 'Email is invalid',
-          (v) => !!this.emailExist || 'Email is already exist',
+          // (v) => !!this.emailExist || 'Email is already exist',
         ],
         password: [
           (v) => !!v || 'Password is required',
@@ -82,22 +90,23 @@ export default {
       this.$axios
         .post('http://localhost:3000/auth/check-email', this.form)
         .then((response) => {
-          console.log(response)
           this.emailExist = false
         })
         .catch((err) => {
           this.emailExist = true
-          console.log('error: ', err.message)
         })
     },
     onSubmit() {
+      this.isDisable = true
       this.$axios
         .post('http://localhost:3000/auth/register', this.form)
         .then((response) => {
-          console.log(response)
+          this.isDisable = false
+          this.$router.push('/login')
         })
         .catch((err) => {
           console.log('error: ', err.message)
+          this.isDisable = false
         })
     },
   },
